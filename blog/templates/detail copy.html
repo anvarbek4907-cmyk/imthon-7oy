@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.title }}</title>
+</head>
+<body>
+
+<a href="{% url 'home' %}">← Bosh sahifa</a>
+
+<h1>{{ post.title }}</h1>
+
+<p>Muallif: {{ post.author.username }}</p>
+
+{% if post.category %}
+<p>Kategoriya: {{ post.category.name }}</p>
+{% endif %}
+
+{% if post.image %}
+<img src="{{ post.image.url }}" alt="{{ post.title }}" width="500">
+{% endif %}
+
+<div>
+    {{ post.desc|safe }}
+</div>
+
+<p>Ko‘rishlar: {{ post.views_count }}</p>
+
+<p>Yaratilgan: {{ post.created_at|date:"d.m.Y H:i" }}</p>
+
+{% if user == post.author or user.is_superuser %}
+<a href="{% url 'post-update' post.id %}">Tahrirlash</a>
+<a href="{% url 'post-delete' post.id %}">O‘chirish</a>
+{% endif %}
+
+<hr>
+
+<h2>Izohlar</h2>
+
+{% for comment in comments %}
+<div>
+    <strong>{{ comment.author.username }}</strong>
+    <p>{{ comment.body }}</p>
+    <small>{{ comment.created_at|date:"d.m.Y H:i" }}</small>
+</div>
+<hr>
+{% empty %}
+<p>Hozircha izohlar yo‘q.</p>
+{% endfor %}
+
+{% if user.is_authenticated %}
+<h3>Izoh qoldirish</h3>
+
+<form method="post" action="{% url 'comment-create' post.id %}">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <button type="submit">Izoh yuborish</button>
+</form>
+{% else %}
+<p>Izoh yozish uchun tizimga kiring.</p>
+{% endif %}
+
+<hr>
+
+<h2>O‘xshash postlar</h2>
+
+{% for similar in similar_posts %}
+<div>
+    <h3>
+        <a href="{% url 'post-detail' similar.id %}">
+            {{ similar.title }}
+        </a>
+    </h3>
+    <p>{{ similar.author.username }}</p>
+</div>
+{% empty %}
+<p>O‘xshash postlar yo‘q.</p>
+{% endfor %}
+
+</body>
+</html>

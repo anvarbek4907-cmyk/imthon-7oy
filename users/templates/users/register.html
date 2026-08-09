@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ro'yxatdan o'tish</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 20px;
+        }
+
+        .register-container {
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .register-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 13px 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .help-text {
+            color: #888;
+            font-size: 12px;
+            margin-top: 5px;
+            line-height: 1.5;
+        }
+
+        .register-button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .register-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 25px;
+            color: #777;
+        }
+
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .form-errors {
+            background: #fff0f0;
+            border: 1px solid #ffcccc;
+            color: #d63031;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 500px) {
+            .register-card {
+                padding: 25px;
+            }
+
+            .logo {
+                font-size: 27px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="register-container">
+
+    <div class="register-card">
+
+        <div class="logo">
+            Blog Platform
+        </div>
+
+        <p class="subtitle">
+            Yangi hisob yaratish
+        </p>
+
+        {% if form.non_field_errors %}
+            <div class="form-errors">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Username -->
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">
+                    Username
+                </label>
+
+                {{ form.username }}
+
+                {% for error in form.username.errors %}
+                    <div class="error">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}">
+                    Email
+                </label>
+
+                {{ form.email }}
+
+                {% for error in form.email.errors %}
+                    <div class="error">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <label for="{{ form.password1.id_for_label }}">
+                    Parol
+                </label>
+
+                {{ form.password1 }}
+
+                {% for error in form.password1.errors %}
+                    <div class="error">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+
+                <div class="help-text">
+                    Parolingiz kamida 8 ta belgidan iborat bo'lishi tavsiya etiladi.
+                </div>
+            </div>
+
+            <!-- Password confirmation -->
+            <div class="form-group">
+                <label for="{{ form.password2.id_for_label }}">
+                    Parolni tasdiqlang
+                </label>
+
+                {{ form.password2 }}
+
+                {% for error in form.password2.errors %}
+                    <div class="error">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="register-button">
+                Ro'yxatdan o'tish
+            </button>
+
+        </form>
+
+        <div class="login-link">
+            Hisobingiz bormi?
+            <a href="#">
+                Tizimga kirish
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

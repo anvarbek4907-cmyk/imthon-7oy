@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<title>Yangi maqola</title>
+<style>
+body{font-family:Arial;background:#f1f5f9;margin:0}
+header{background:#1e3a5f;color:white;padding:25px}
+.header{max-width:900px;margin:auto;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:28px;font-weight:bold}
+.search{display:flex}
+.search input{padding:12px;width:220px;border:0}
+.search button{padding:12px 20px;border:0;background:#3498db;color:white}
+.container{max-width:800px;margin:40px auto}
+.card{background:white;padding:35px;border-radius:12px;box-shadow:0 5px 20px #ddd}
+h1{font-size:35px}
+.form-group{margin-bottom:20px}
+label{display:block;font-weight:bold;margin-bottom:8px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #ccc;border-radius:6px;font-size:16px}
+textarea{height:200px}
+button{padding:13px 25px;background:#3498db;color:white;border:0;border-radius:6px;cursor:pointer}
+a{color:#3498db;text-decoration:none}
+</style>
+</head>
+<body>
+
+<header>
+<div class="header">
+<div class="logo">Blog</div>
+<form class="search" method="get" action="{% url 'home' %}">
+<input type="text" name="q" placeholder="Qidirish...">
+<button type="submit">Qidirish</button>
+</form>
+</div>
+</header>
+
+<div class="container">
+<a href="{% url 'home' %}">← Bosh sahifa</a>
+<h1>Yangi maqola yozish</h1>
+
+<div class="card">
+<form method="post" enctype="multipart/form-data">
+{% csrf_token %}
+
+{{ form.as_p }}
+
+<button type="submit">Saqlash</button>
+</form>
+</div>
+</div>
+
+</body>
+</html>

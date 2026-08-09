@@ -1,0 +1,17 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}Kirish - Blog{% endblock %}
+
+{% block content %}
+<h1>Tizimga kirish</h1>
+<div style="background:#fff;border:1px solid #ddd;border-radius:6px;padding:20px;max-width:400px;">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Kirish</button>
+    </form>
+    <p style="margin-top:14px;font-size:14px;">
+        Akkountingiz yo'qmi? <a href="{% url 'register' %}">Ro'yxatdan o'ting</a>
+    </p>
+</div>
+{% endblock %}
