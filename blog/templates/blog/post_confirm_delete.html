@@ -1,26 +1,158 @@
 <!DOCTYPE html>
 <html lang="uz">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Postni o‘chirish</title>
-<style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb}.navbar{background:#111827;padding:18px}.nav{max-width:700px;margin:auto;display:flex;justify-content:space-between}.logo{color:white;text-decoration:none;font-size:25px;font-weight:bold}.nav a{color:white;text-decoration:none}.container{width:90%;max-width:650px;margin:80px auto}.box{background:white;padding:40px;border-radius:18px;text-align:center;box-shadow:0 5px 20px #00000010}.icon{font-size:55px;margin-bottom:15px}.box h1{margin-bottom:12px}.box p{color:#6b7280;margin-bottom:25px}.delete{background:#dc2626;color:white;border:0;padding:13px 25px;border-radius:8px;cursor:pointer;font-size:15px}.cancel{display:inline-block;background:#e5e7eb;color:#374151;text-decoration:none;padding:13px 25px;border-radius:8px;margin-left:8px}
-</style>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Postni o‘chirish</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 100px auto;
+        }
+
+        .box {
+            background: white;
+            padding: 40px;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.10);
+            text-align: center;
+        }
+
+        .icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin-bottom: 15px;
+            color: #111827;
+        }
+
+        .text {
+            color: #6b7280;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .post-title {
+            color: #111827;
+            font-weight: bold;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .btn {
+            border: none;
+            padding: 12px 22px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 15px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .cancel {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .cancel:hover {
+            background: #d1d5db;
+        }
+
+        .delete {
+            background: #dc2626;
+            color: white;
+        }
+
+        .delete:hover {
+            background: #b91c1c;
+        }
+
+    </style>
 </head>
+
 <body>
-<nav class="navbar"><div class="nav"><a class="logo" href="{% url 'home' %}">📝 Blog Platforma</a><a href="{% url 'home' %}">Bosh sahifa</a></div></nav>
+
 <div class="container">
-<div class="box">
-<div class="icon">⚠️</div>
-<h1>Postni o‘chirmoqchimisiz?</h1>
-<p><strong>{{ object.title }}</strong> postini o‘chirishni tasdiqlang.</p>
-<form method="post">
-{% csrf_token %}
-<button class="delete" type="submit">🗑 Ha, o‘chirish</button>
-<a class="cancel" href="{% url 'post-detail' object.slug %}">Bekor qilish</a>
-</form>
+
+    <div class="box">
+
+        <div class="icon">
+            🗑️
+        </div>
+
+        <h1>
+            Postni o‘chirish
+        </h1>
+
+        <p class="text">
+
+            Siz rostdan ham
+
+            <span class="post-title">
+                "{{ object.title }}"
+            </span>
+
+            postini o‘chirmoqchimisiz?
+
+            <br><br>
+
+            Bu amalni qaytarib bo‘lmaydi.
+
+        </p>
+
+        <div class="buttons">
+
+            <a href="{% url 'post-detail' object.slug %}"
+               class="btn cancel">
+
+                Bekor qilish
+
+            </a>
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                <button type="submit"
+                        class="btn delete">
+
+                    🗑️ Ha, o‘chirish
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
 </div>
-</div>
+
 </body>
+
 </html>

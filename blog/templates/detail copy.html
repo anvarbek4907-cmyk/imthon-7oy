@@ -3,80 +3,418 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>{{ post.title }}</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 40px auto;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .post {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .post h1 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .info {
+            color: #6b7280;
+            margin-bottom: 20px;
+        }
+
+        .post-image {
+            width: 100%;
+            max-height: 500px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .description {
+            font-size: 17px;
+            line-height: 1.8;
+            margin-top: 20px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .like-btn {
+            background: #ef4444;
+            color: white;
+        }
+
+        .edit-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #dc2626;
+            color: white;
+        }
+
+        .comments,
+        .similar,
+        .recently {
+            margin-top: 30px;
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+        .comment {
+            padding: 15px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .comment:last-child {
+            border-bottom: none;
+        }
+
+        .comment-author {
+            font-weight: bold;
+        }
+
+        .comment-date {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .comment-text {
+            margin-top: 8px;
+            line-height: 1.6;
+        }
+
+        .comment-form textarea,
+        .comment-form input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .comment-form button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 11px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .post-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .post-item {
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: 10px;
+        }
+
+        .post-item a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .message {
+            background: #dcfce7;
+            color: #166534;
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
+
 <body>
 
-<a href="{% url 'home' %}">← Bosh sahifa</a>
+<div class="container">
 
-<h1>{{ post.title }}</h1>
+    <a href="{% url 'home' %}" class="back">
+        ← Bosh sahifa
+    </a>
 
-<p>Muallif: {{ post.author.username }}</p>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
 
-{% if post.category %}
-<p>Kategoriya: {{ post.category.name }}</p>
-{% endif %}
+    <div class="post">
 
-{% if post.image %}
-<img src="{{ post.image.url }}" alt="{{ post.title }}" width="500">
-{% endif %}
+        <h1>
+            {{ post.title }}
+        </h1>
 
-<div>
-    {{ post.desc|safe }}
+        <div class="info">
+            👤 {{ post.author.username }}
+            &nbsp; | &nbsp;
+            📅 {{ post.created_at|date:"d.m.Y H:i" }}
+            &nbsp; | &nbsp;
+            👁 {{ post.views_count }}
+        </div>
+
+        {% if post.category %}
+            <p>
+                📁 Kategoriya:
+                <strong>{{ post.category.name }}</strong>
+            </p>
+        {% endif %}
+
+        {% if post.image %}
+            <img
+                src="{{ post.image.url }}"
+                alt="{{ post.title }}"
+                class="post-image"
+            >
+        {% endif %}
+
+        <div class="description">
+            {{ post.desc|safe }}
+        </div>
+
+        <div class="description">
+            {{ post.content|safe }}
+        </div>
+
+        <div class="actions">
+
+            {% if user.is_authenticated %}
+
+                <a
+                    href="{% url 'like-post' post.slug %}"
+                    class="btn like-btn"
+                >
+                    {% if user_liked %}
+                        💔 Unlike
+                    {% else %}
+                        ❤️ Like
+                    {% endif %}
+                </a>
+
+            {% else %}
+
+                <a
+                    href="{% url 'login' %}"
+                    class="btn like-btn"
+                >
+                    ❤️ Like
+                </a>
+
+            {% endif %}
+
+            <span class="btn">
+                ❤️ {{ like_count }}
+            </span>
+
+
+            {% if user == post.author or user.is_superuser %}
+
+                <a
+                    href="{% url 'post-update' post.slug %}"
+                    class="btn edit-btn"
+                >
+                    ✏️ Tahrirlash
+                </a>
+
+                <a
+                    href="{% url 'post-delete' post.slug %}"
+                    class="btn delete-btn"
+                >
+                    🗑️ O‘chirish
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <div class="comments">
+
+        <h2>
+            💬 Kommentariyalar
+        </h2>
+
+        {% if user.is_authenticated %}
+
+            <form
+                method="post"
+                action="{% url 'comment-create' post.slug %}"
+                class="comment-form"
+            >
+
+                {% csrf_token %}
+
+                {{ comment_form.as_p }}
+
+                <button type="submit">
+                    💬 Kommentariya yozish
+                </button>
+
+            </form>
+
+        {% else %}
+
+            <p>
+                Kommentariya yozish uchun tizimga kiring.
+            </p>
+
+        {% endif %}
+
+
+        {% for comment in comments %}
+
+            <div class="comment">
+
+                <div class="comment-author">
+                    👤 {{ comment.author.username }}
+                </div>
+
+                <div class="comment-date">
+                    {{ comment.created_at|date:"d.m.Y H:i" }}
+                </div>
+
+                <div class="comment-text">
+                    {{ comment.text }}
+                </div>
+
+            </div>
+
+        {% empty %}
+
+            <p>
+                Hozircha kommentariya yo‘q.
+            </p>
+
+        {% endfor %}
+
+    </div>
+
+
+    <div class="recently">
+
+        <h2>
+            ⏰ Recently
+        </h2>
+
+        <div class="post-list">
+
+            {% for recent in recently_posts %}
+
+                <div class="post-item">
+
+                    <a href="{% url 'post-detail' recent.slug %}">
+                        {{ recent.title }}
+                    </a>
+
+                    <p>
+                        👤 {{ recent.author.username }}
+                        <br>
+                        📅 {{ recent.created_at|date:"d.m.Y H:i" }}
+                    </p>
+
+                </div>
+
+            {% empty %}
+
+                <p>
+                    Recently postlar yo‘q.
+                </p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+    <div class="similar">
+
+        <h2>
+            📚 O‘xshash postlar
+        </h2>
+
+        <div class="post-list">
+
+            {% for similar in similar_posts %}
+
+                <div class="post-item">
+
+                    <a href="{% url 'post-detail' similar.slug %}">
+                        {{ similar.title }}
+                    </a>
+
+                    <p>
+                        👤 {{ similar.author.username }}
+                    </p>
+
+                </div>
+
+            {% empty %}
+
+                <p>
+                    O‘xshash postlar yo‘q.
+                </p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
 </div>
-
-<p>Ko‘rishlar: {{ post.views_count }}</p>
-
-<p>Yaratilgan: {{ post.created_at|date:"d.m.Y H:i" }}</p>
-
-{% if user == post.author or user.is_superuser %}
-<a href="{% url 'post-update' post.slug %}">Tahrirlash</a>
-<a href="{% url 'post-delete' post.slug %}">O‘chirish</a>
-{% endif %}
-
-<hr>
-
-<h2>Izohlar</h2>
-
-{% for comment in comments %}
-<div>
-    <strong>{{ comment.author.username }}</strong>
-    <p>{{ comment.text }}</p>
-    <small>{{ comment.created_at|date:"d.m.Y H:i" }}</small>
-</div>
-<hr>
-{% empty %}
-<p>Hozircha izohlar yo‘q.</p>
-{% endfor %}
-
-{% if user.is_authenticated %}
-<h3>Izoh qoldirish</h3>
-
-<form method="post" action="{% url 'comment-create' post.slug %}">
-    {% csrf_token %}
-    {{ comment_form.as_p }}
-    <button type="submit">Izoh yuborish</button>
-</form>
-{% else %}
-<p>Izoh yozish uchun tizimga kiring.</p>
-{% endif %}
-
-<hr>
-
-<h2>O‘xshash postlar</h2>
-
-{% for similar in similar_posts %}
-<div>
-    <h3>
-        <a href="{% url 'post-detail' similar.slug %}">
-            {{ similar.title }}
-        </a>
-    </h3>
-    <p>{{ similar.author.username }}</p>
-</div>
-{% empty %}
-<p>O‘xshash postlar yo‘q.</p>
-{% endfor %}
 
 </body>
 </html>

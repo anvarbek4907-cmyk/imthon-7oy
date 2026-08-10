@@ -8,56 +8,62 @@ from .views import (
     PostUpdateView,
     PostDeleteView,
     CommentCreateView,
+    like_post,
+    LikedPostsView,
 )
 
-
 urlpatterns = [
-    # Bosh sahifa
     path(
         "",
         HomeView.as_view(),
-        name="home",
+        name="home"
     ),
 
-    # Kategoriya
     path(
         "category/<slug:slug>/",
         CategoryView.as_view(),
-        name="category",
+        name="category"
     ),
 
-    # Yangi post yaratish
     path(
         "post/create/",
         PostCreateView.as_view(),
-        name="post-create",
+        name="post-create"
     ),
 
-    # Postni ko'rish
     path(
         "post/<slug:slug>/",
         PostDetailView.as_view(),
-        name="post-detail",
+        name="post-detail"
     ),
 
-    # Postni tahrirlash
     path(
         "post/<slug:slug>/update/",
         PostUpdateView.as_view(),
-        name="post-update",
+        name="post-update"
     ),
 
-    # Postni o'chirish
     path(
         "post/<slug:slug>/delete/",
         PostDeleteView.as_view(),
-        name="post-delete",
+        name="post-delete"
     ),
 
-    # Kommentariya qo'shish
     path(
         "post/<slug:slug>/comment/",
         CommentCreateView.as_view(),
-        name="comment-create",
+        name="comment-create"
+    ),
+
+    path(
+        "post/<slug:slug>/like/",
+        like_post,
+        name="like-post"
+    ),
+
+    path(
+        "liked/",
+        LikedPostsView.as_view(),
+        name="liked-posts"
     ),
 ]

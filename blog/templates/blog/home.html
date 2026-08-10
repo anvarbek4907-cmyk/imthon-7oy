@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html lang="uz">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Blog Platforma</title>
+
     <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -17,6 +24,8 @@
             color: #1f2937;
         }
 
+        /* NAVBAR */
+
         .navbar {
             background: #111827;
             padding: 18px 0;
@@ -27,6 +36,7 @@
             width: 90%;
             max-width: 1200px;
             margin: auto;
+
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -60,10 +70,15 @@
             background: #e74c3c;
             color: white;
             border: none;
+
             padding: 9px 15px;
+
             border-radius: 8px;
+
             cursor: pointer;
+
             font-size: 14px;
+
             font-family: Arial, sans-serif;
         }
 
@@ -71,17 +86,31 @@
             background: #c0392b;
         }
 
+
+        /* CONTAINER */
+
         .container {
             width: 90%;
             max-width: 1200px;
             margin: 40px auto;
         }
 
+
+        /* HERO */
+
         .hero {
-            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #7c3aed
+            );
+
             color: white;
+
             padding: 45px;
+
             border-radius: 18px;
+
             margin-bottom: 30px;
         }
 
@@ -95,11 +124,19 @@
             opacity: 0.9;
         }
 
+
+        /* SEARCH */
+
         .search-box {
             background: white;
+
             padding: 20px;
+
             border-radius: 14px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.06);
+
             margin-bottom: 25px;
         }
 
@@ -110,10 +147,15 @@
 
         .search-form input {
             flex: 1;
+
             padding: 13px 15px;
+
             border: 1px solid #d1d5db;
+
             border-radius: 8px;
+
             font-size: 15px;
+
             outline: none;
         }
 
@@ -123,11 +165,17 @@
 
         .search-form button {
             border: none;
+
             background: #2563eb;
+
             color: white;
+
             padding: 13px 22px;
+
             border-radius: 8px;
+
             cursor: pointer;
+
             font-size: 15px;
         }
 
@@ -135,19 +183,30 @@
             background: #1d4ed8;
         }
 
+
+        /* SORT */
+
         .sort {
             display: flex;
+
             gap: 10px;
+
             margin-bottom: 25px;
+
             flex-wrap: wrap;
         }
 
         .sort a {
             text-decoration: none;
+
             background: white;
+
             color: #374151;
+
             padding: 10px 16px;
+
             border-radius: 8px;
+
             border: 1px solid #e5e7eb;
         }
 
@@ -156,40 +215,86 @@
             color: white;
         }
 
+        .sort .active {
+            background: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+
+
+        /* TITLE */
+
         .section-title {
             font-size: 28px;
             margin-bottom: 20px;
         }
 
+
+        /* POSTS */
+
         .posts {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
             gap: 22px;
         }
 
         .post-card {
             background: white;
+
             border-radius: 15px;
+
             overflow: hidden;
-            box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+
+            box-shadow:
+                0 5px 18px rgba(0,0,0,0.07);
+
             transition: 0.25s;
         }
 
         .post-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+
+            box-shadow:
+                0 10px 25px rgba(0,0,0,0.12);
         }
+
+
+        /* IMAGE */
 
         .post-image {
             height: 170px;
-            background: linear-gradient(135deg, #2563eb, #9333ea);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #9333ea
+                );
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
+
             color: white;
+
             font-size: 45px;
+
             font-weight: bold;
         }
+
+        .post-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+
+        /* CONTENT */
 
         .post-content {
             padding: 20px;
@@ -197,23 +302,33 @@
 
         .category {
             display: inline-block;
+
             background: #dbeafe;
+
             color: #1d4ed8;
+
             padding: 5px 10px;
+
             border-radius: 20px;
+
             font-size: 12px;
+
             font-weight: bold;
+
             margin-bottom: 12px;
         }
 
         .post-title {
             font-size: 21px;
+
             margin-bottom: 10px;
+
             line-height: 1.3;
         }
 
         .post-title a {
             color: #111827;
+
             text-decoration: none;
         }
 
@@ -223,24 +338,48 @@
 
         .post-desc {
             color: #6b7280;
+
             line-height: 1.6;
+
             margin-bottom: 15px;
         }
 
+
+        /* INFO */
+
         .post-info {
             display: flex;
+
             justify-content: space-between;
+
             color: #6b7280;
+
             font-size: 13px;
-            border-top: 1px solid #eee;
+
+            border-top:
+                1px solid #eee;
+
             padding-top: 13px;
         }
 
-        .read-more {
-            display: inline-block;
+
+        /* ACTIONS */
+
+        .post-actions {
+            display: flex;
+
+            gap: 15px;
+
+            align-items: center;
+
             margin-top: 15px;
+        }
+
+        .read-more {
             color: #2563eb;
+
             text-decoration: none;
+
             font-weight: bold;
         }
 
@@ -248,59 +387,107 @@
             text-decoration: underline;
         }
 
+        .delete-btn {
+            color: #dc2626;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        .delete-btn:hover {
+            text-decoration: underline;
+        }
+
+
+        /* EMPTY */
+
         .empty {
             background: white;
+
             padding: 50px;
+
             text-align: center;
+
             border-radius: 15px;
+
             color: #6b7280;
+
             font-size: 20px;
         }
 
+
+        /* PAGINATION */
+
         .pagination {
             display: flex;
+
             justify-content: center;
+
             gap: 8px;
+
             margin-top: 35px;
         }
 
         .pagination a,
         .pagination span {
             padding: 10px 15px;
+
             background: white;
+
             border-radius: 8px;
+
             text-decoration: none;
+
             color: #374151;
+
             border: 1px solid #e5e7eb;
         }
 
         .pagination .current {
             background: #2563eb;
+
             color: white;
+
             border-color: #2563eb;
         }
 
+
+        /* FOOTER */
+
         footer {
             margin-top: 60px;
+
             background: #111827;
+
             color: #9ca3af;
+
             text-align: center;
+
             padding: 30px;
         }
 
+
+        /* MOBILE */
+
         @media (max-width: 900px) {
+
             .posts {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns:
+                    repeat(2, 1fr);
             }
+
         }
 
         @media (max-width: 600px) {
+
             .posts {
                 grid-template-columns: 1fr;
             }
 
             .nav-content {
                 flex-direction: column;
+
                 gap: 15px;
             }
 
@@ -315,140 +502,438 @@
             .search-form {
                 flex-direction: column;
             }
+
         }
+
     </style>
+
 </head>
+
 
 <body>
 
+
+<!-- NAVBAR -->
+
 <nav class="navbar">
+
     <div class="nav-content">
-        <a href="{% url 'home' %}" class="logo">📝 Blog Platforma</a>
+
+        <a href="{% url 'home' %}"
+           class="logo">
+
+            📝 Blog Platforma
+
+        </a>
+
 
         <div class="nav-links">
-            {% if user.is_authenticated %}
-                <a href="{% url 'post-create' %}">+ Post yozish</a>
 
-                <form method="post" action="{% url 'logout' %}" style="display:inline; margin:0;">
+            {% if user.is_authenticated %}
+
+                <a href="{% url 'post-create' %}">
+                    + Post yozish
+                </a>
+
+
+                <a href="{% url 'liked-posts' %}">
+                    ❤️ Yoqtirganlarim
+                </a>
+
+
+                <form method="post"
+                      action="{% url 'logout' %}"
+                      style="display:inline; margin:0;">
+
                     {% csrf_token %}
-                    <button type="submit" class="logout-btn">Chiqish</button>
+
+                    <button type="submit"
+                            class="logout-btn">
+
+                        Chiqish
+
+                    </button>
+
                 </form>
+
             {% else %}
-                <a href="/users/login/">Kirish</a>
-                <a href="/users/register/">Ro‘yxatdan o‘tish</a>
+
+                <a href="/users/login/">
+                    Kirish
+                </a>
+
+                <a href="/users/register/">
+                    Ro‘yxatdan o‘tish
+                </a>
+
             {% endif %}
+
         </div>
+
     </div>
+
 </nav>
+
+
 
 <div class="container">
 
+
+    <!-- HERO -->
+
     <div class="hero">
-        <h1>Blog Platformaga xush kelibsiz 👋</h1>
-        <p>Qiziqarli maqolalarni o‘qing, yangi bilimlar o‘rganing va o‘z postlaringizni ulashing.</p>
+
+        <h1>
+            Blog Platformaga xush kelibsiz 👋
+        </h1>
+
+        <p>
+            Qiziqarli maqolalarni o‘qing,
+            yangi bilimlar o‘rganing
+            va o‘z postlaringizni ulashing.
+        </p>
+
     </div>
+
+
+
+    <!-- SEARCH -->
 
     <div class="search-box">
-        <form method="get" class="search-form">
-            <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Post qidirish...">
-            <button type="submit">🔍 Qidirish</button>
+
+        <form method="get"
+              class="search-form">
+
+            <input
+                type="text"
+                name="q"
+                value="{{ request.GET.q }}"
+                placeholder="Post qidirish..."
+            >
+
+            <button type="submit">
+                🔍 Qidirish
+            </button>
+
         </form>
+
     </div>
+
+
+
+    <!-- SORT -->
 
     <div class="sort">
-        <a href="?sort=new">🆕 Eng yangi</a>
-        <a href="?sort=old">📅 Eng eski</a>
-        <a href="?sort=views">🔥 Eng ko‘p ko‘rilgan</a>
+
+        <a href="?sort=new"
+           {% if request.GET.sort == 'new' or not request.GET.sort %}
+           class="active"
+           {% endif %}>
+
+            🆕 Eng yangi
+
+        </a>
+
+
+        <a href="?sort=recent"
+           {% if request.GET.sort == 'recent' %}
+           class="active"
+           {% endif %}>
+
+            ⏰ Recently
+
+        </a>
+
+
+        <a href="?sort=likes"
+           {% if request.GET.sort == 'likes' %}
+           class="active"
+           {% endif %}>
+
+            ❤️ Like
+
+        </a>
+
+
+        <a href="?sort=old"
+           {% if request.GET.sort == 'old' %}
+           class="active"
+           {% endif %}>
+
+            📅 Eng eski
+
+        </a>
+
+
+        <a href="?sort=views"
+           {% if request.GET.sort == 'views' %}
+           class="active"
+           {% endif %}>
+
+            🔥 Eng ko‘p ko‘rilgan
+
+        </a>
+
     </div>
 
-    <h2 class="section-title">So‘nggi postlar</h2>
+
+
+    <!-- TITLE -->
+
+    <h2 class="section-title">
+
+        {% if request.GET.sort == 'old' %}
+
+            📅 Eski postlar
+
+        {% elif request.GET.sort == 'recent' %}
+
+            ⏰ Recently postlar
+
+        {% elif request.GET.sort == 'likes' %}
+
+            ❤️ Yoqtirgan postlar
+
+        {% elif request.GET.sort == 'views' %}
+
+            🔥 Eng ko‘p ko‘rilgan postlar
+
+        {% else %}
+
+            🆕 Eng yangi postlar
+
+        {% endif %}
+
+    </h2>
+
+
+
+    <!-- POSTS -->
 
     {% if posts %}
 
-    <div class="posts">
+        <div class="posts">
 
-        {% for post in posts %}
 
-        <article class="post-card">
+            {% for post in posts %}
 
-            <div class="post-image">
-                {% if post.image %}
-                    <img src="{{ post.image.url }}" alt="{{ post.title }}" style="width:100%; height:100%; object-fit:cover;">
-                {% else %}
-                    📰
-                {% endif %}
-            </div>
+                <article class="post-card">
 
-            <div class="post-content">
 
-                {% if post.category %}
-                    <span class="category">{{ post.category.name }}</span>
-                {% endif %}
+                    <!-- IMAGE -->
 
-                <h2 class="post-title">
-                    <a href="{% url 'post-detail' post.slug %}">
-                        {{ post.title }}
-                    </a>
-                </h2>
+                    <div class="post-image">
 
-                <p class="post-desc">
-                    {{ post.desc|truncatewords:20 }}
-                </p>
+                        {% if post.image %}
 
-                <div class="post-info">
-                    <span>👤 {{ post.author.username }}</span>
-                    <span>👁 {{ post.views_count }}</span>
-                </div>
+                            <img
+                                src="{{ post.image.url }}"
+                                alt="{{ post.title }}"
+                            >
 
-                <a href="{% url 'post-detail' post.slug %}" class="read-more">
-                    Batafsil o‘qish →
-                </a>
+                        {% else %}
 
-            </div>
+                            📰
 
-        </article>
+                        {% endif %}
 
-        {% endfor %}
+                    </div>
 
-    </div>
+
+
+                    <!-- CONTENT -->
+
+                    <div class="post-content">
+
+
+                        {% if post.category %}
+
+                            <span class="category">
+
+                                {{ post.category.name }}
+
+                            </span>
+
+                        {% endif %}
+
+
+
+                        <h2 class="post-title">
+
+                            <a href="{% url 'post-detail' post.slug %}">
+
+                                {{ post.title }}
+
+                            </a>
+
+                        </h2>
+
+
+
+                        <p class="post-desc">
+
+                            {{ post.desc|truncatewords:20 }}
+
+                        </p>
+
+
+
+                        <div class="post-info">
+
+                            <span>
+                                👤 {{ post.author.username }}
+                            </span>
+
+                            <span>
+                                👁 {{ post.views_count }}
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- ACTIONS -->
+
+                        <div class="post-actions">
+
+
+                            <a
+                                href="{% url 'post-detail' post.slug %}"
+                                class="read-more">
+
+                                Batafsil o‘qish →
+
+                            </a>
+
+
+                            {% if user.is_authenticated %}
+
+                                {% if user == post.author or user.is_superuser %}
+
+                                    <a
+                                        href="{% url 'post-delete' post.slug %}"
+                                        class="delete-btn">
+
+                                        🗑 O‘chirish
+
+                                    </a>
+
+                                {% endif %}
+
+                            {% endif %}
+
+
+                        </div>
+
+
+                    </div>
+
+                </article>
+
+            {% endfor %}
+
+        </div>
+
 
     {% else %}
 
-    <div class="empty">
-        <div style="font-size:50px;">📭</div>
-        <h2>Post topilmadi</h2>
-        <p style="margin-top:10px;">Hozircha hech qanday post mavjud emas.</p>
-    </div>
+
+        <div class="empty">
+
+            <div style="font-size:50px;">
+                📭
+            </div>
+
+            <h2>
+                Post topilmadi
+            </h2>
+
+            <p style="margin-top:10px;">
+                Hozircha hech qanday post mavjud emas.
+            </p>
+
+        </div>
+
 
     {% endif %}
+
+
+
+    <!-- PAGINATION -->
 
     {% if is_paginated %}
-    <div class="pagination">
 
-        {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}">← Oldingi</a>
-        {% endif %}
+        <div class="pagination">
 
-        {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-                <span class="current">{{ num }}</span>
-            {% else %}
-                <a href="?page={{ num }}">{{ num }}</a>
+
+            {% if page_obj.has_previous %}
+
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
+
+                    ← Oldingi
+
+                </a>
+
             {% endif %}
-        {% endfor %}
 
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">Keyingi →</a>
-        {% endif %}
 
-    </div>
+
+            {% for num in page_obj.paginator.page_range %}
+
+                {% if page_obj.number == num %}
+
+                    <span class="current">
+
+                        {{ num }}
+
+                    </span>
+
+                {% else %}
+
+                    <a href="?page={{ num }}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
+
+                        {{ num }}
+
+                    </a>
+
+                {% endif %}
+
+            {% endfor %}
+
+
+
+            {% if page_obj.has_next %}
+
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
+
+                    Keyingi →
+
+                </a>
+
+            {% endif %}
+
+
+        </div>
+
     {% endif %}
+
 
 </div>
 
+
+
+<!-- FOOTER -->
+
 <footer>
-    <p>© 2026 Blog Platforma. Barcha huquqlar himoyalangan.</p>
+
+    <p>
+        © 2026 Blog Platforma.
+        Barcha huquqlar himoyalangan.
+    </p>
+
 </footer>
 
+
 </body>
+
 </html>

@@ -2,7 +2,224 @@
 
 {% block content %}
 
-<div class="post-detail">
+<style>
+    .detail-container {
+        max-width: 850px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .post-image {
+        width: 100%;
+        max-height: 450px;
+        object-fit: cover;
+        border-radius: 18px;
+        margin-bottom: 25px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    }
+
+    .post-title {
+        font-size: 42px;
+        line-height: 1.2;
+        margin-bottom: 15px;
+        color: #222;
+    }
+
+    .post-info {
+        display: flex;
+        gap: 20px;
+        color: #777;
+        font-size: 14px;
+        margin-bottom: 25px;
+    }
+
+    .post-content {
+        font-size: 18px;
+        line-height: 1.8;
+        color: #333;
+        margin-bottom: 30px;
+    }
+
+    .like-box {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin: 25px 0;
+    }
+
+    .like-button {
+        border: none;
+        border-radius: 30px;
+        padding: 11px 22px;
+        font-size: 16px;
+        cursor: pointer;
+        background: #f1f3f5;
+        transition: 0.2s;
+    }
+
+    .like-button:hover {
+        background: #ffe4e8;
+        transform: translateY(-2px);
+    }
+
+    .like-count {
+        color: #666;
+        font-weight: 600;
+    }
+
+    .post-actions {
+        display: flex;
+        gap: 10px;
+        margin: 25px 0;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 18px;
+        border-radius: 8px;
+        text-decoration: none;
+        color: white;
+        font-size: 14px;
+    }
+
+    .btn-edit {
+        background: #2563eb;
+    }
+
+    .btn-danger {
+        background: #dc2626;
+    }
+
+    .section-title {
+        font-size: 25px;
+        margin-bottom: 20px;
+        color: #222;
+    }
+
+    .similar-grid,
+    .recently-grid {
+        display: grid;
+        gap: 15px;
+    }
+
+    .similar-card,
+    .recent-card {
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        padding: 18px;
+        transition: 0.2s;
+    }
+
+    .similar-card:hover,
+    .recent-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+
+    .similar-card a,
+    .recent-card a {
+        color: #222;
+        text-decoration: none;
+    }
+
+    .similar-card a:hover,
+    .recent-card a:hover {
+        color: #2563eb;
+    }
+
+    .date {
+        color: #888;
+        font-size: 13px;
+        margin-bottom: 7px;
+    }
+
+    .comments {
+        margin-top: 35px;
+    }
+
+    .comment {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 12px;
+    }
+
+    .comment strong {
+        color: #222;
+    }
+
+    .comment p {
+        margin: 8px 0;
+        color: #444;
+    }
+
+    .comment small {
+        color: #888;
+    }
+
+    .comment-form textarea {
+        width: 100%;
+        min-height: 120px;
+        padding: 14px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        resize: vertical;
+        font-size: 15px;
+        box-sizing: border-box;
+    }
+
+    .comment-button {
+        margin-top: 10px;
+        border: none;
+        background: #2563eb;
+        color: white;
+        padding: 11px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 15px;
+    }
+
+    .comment-button:hover {
+        background: #1d4ed8;
+    }
+
+    .login-message {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    .login-message a {
+        color: #2563eb;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    hr {
+        border: none;
+        border-top: 1px solid #eee;
+        margin: 35px 0;
+    }
+
+    @media (max-width: 600px) {
+        .post-title {
+            font-size: 30px;
+        }
+
+        .post-info {
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .detail-container {
+            margin: 20px auto;
+        }
+    }
+</style>
+
+
+<div class="detail-container">
 
     {% if post.image %}
         <img
@@ -12,7 +229,11 @@
         >
     {% endif %}
 
-    <h1>{{ post.title }}</h1>
+
+    <h1 class="post-title">
+        {{ post.title }}
+    </h1>
+
 
     <div class="post-info">
         <span>
@@ -22,13 +243,63 @@
         <span>
             💬 {{ comments.count }} fikr
         </span>
+
+        <span>
+            👁️ {{ post.views_count }} ko‘rish
+        </span>
     </div>
 
+
+    <!-- LIKE -->
+    <div class="like-box">
+
+        {% if user.is_authenticated %}
+
+            <form
+                method="post"
+                action="{% url 'like-post' post.slug %}"
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="like-button"
+                >
+                    {% if user_liked %}
+                        ❤️ Unlike
+                    {% else %}
+                        🤍 Like
+                    {% endif %}
+                </button>
+
+            </form>
+
+        {% else %}
+
+            <div class="login-message">
+                Like bosish uchun
+                <a href="{% url 'login' %}">
+                    tizimga kiring
+                </a>.
+            </div>
+
+        {% endif %}
+
+        <span class="like-count">
+            ❤️ {{ like_count }} ta like
+        </span>
+
+    </div>
+
+
+    <!-- CONTENT -->
     <div class="post-content">
         {{ post.content|linebreaks }}
     </div>
 
 
+    <!-- ACTIONS -->
     {% if user == post.author %}
 
         <div class="post-actions">
@@ -55,37 +326,42 @@
     <hr>
 
 
-    <!-- O'xshash maqolalar -->
-    <section class="similar-posts">
+    <!-- SIMILAR POSTS -->
+    <section>
 
-        <h2>📚 O‘xshash maqolalar</h2>
+        <h2 class="section-title">
+            📚 O‘xshash maqolalar
+        </h2>
 
-        {% for similar in similar_posts %}
+        <div class="similar-grid">
 
-            <div class="similar-card">
+            {% for similar in similar_posts %}
 
-                <div>
-                    📅
-                    {{ similar.created_at|date:"d M Y" }}
+                <div class="similar-card">
+
+                    <div class="date">
+                        📅 {{ similar.created_at|date:"d M Y" }}
+                    </div>
+
+                    <h3>
+                        <a
+                            href="{% url 'post-detail' similar.slug %}"
+                        >
+                            {{ similar.title }}
+                        </a>
+                    </h3>
+
                 </div>
 
-                <h3>
-                    <a
-                        href="{% url 'post-detail' similar.slug %}"
-                    >
-                        {{ similar.title }}
-                    </a>
-                </h3>
+            {% empty %}
 
-            </div>
+                <p>
+                    O‘xshash maqolalar topilmadi.
+                </p>
 
-        {% empty %}
+            {% endfor %}
 
-            <p>
-                O‘xshash maqolalar topilmadi.
-            </p>
-
-        {% endfor %}
+        </div>
 
     </section>
 
@@ -93,10 +369,55 @@
     <hr>
 
 
-    <!-- Kommentariyalar -->
+    <!-- RECENTLY -->
+    <section>
+
+        <h2 class="section-title">
+            🕒 Recently
+        </h2>
+
+        <div class="recently-grid">
+
+            {% for recent in recently_posts %}
+
+                <div class="recent-card">
+
+                    <div class="date">
+                        📅 {{ recent.created_at|date:"d M Y H:i" }}
+                    </div>
+
+                    <h3>
+                        <a
+                            href="{% url 'post-detail' recent.slug %}"
+                        >
+                            {{ recent.title }}
+                        </a>
+                    </h3>
+
+                </div>
+
+            {% empty %}
+
+                <p>
+                    Hozircha boshqa postlar yo‘q.
+                </p>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <hr>
+
+
+    <!-- COMMENTS -->
     <section class="comments">
 
-        <h2>💬 Fikrlar</h2>
+        <h2 class="section-title">
+            💬 Fikrlar
+        </h2>
 
 
         {% for comment in comments %}
@@ -104,7 +425,7 @@
             <div class="comment">
 
                 <strong>
-                    {{ comment.author }}
+                    👤 {{ comment.author }}
                 </strong>
 
                 <p>
@@ -112,7 +433,7 @@
                 </p>
 
                 <small>
-                    {{ comment.created_at|date:"d M Y H:i" }}
+                    📅 {{ comment.created_at|date:"d M Y H:i" }}
                 </small>
 
             </div>
@@ -132,6 +453,7 @@
             <form
                 method="post"
                 action="{% url 'comment-create' post.slug %}"
+                class="comment-form"
             >
 
                 {% csrf_token %}
@@ -142,7 +464,10 @@
                     required
                 ></textarea>
 
-                <button type="submit">
+                <button
+                    type="submit"
+                    class="comment-button"
+                >
                     💙 Fikr qoldirish
                 </button>
 
@@ -150,10 +475,12 @@
 
         {% else %}
 
-            <p>
+            <div class="login-message">
                 Fikr qoldirish uchun
-                tizimga kiring.
-            </p>
+                <a href="{% url 'login' %}">
+                    tizimga kiring
+                </a>.
+            </div>
 
         {% endif %}
 

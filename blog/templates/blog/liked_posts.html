@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Yoqtirganlarim</title>
+</head>
+
+<body>
+
+    <h1>❤️ Yoqtirganlarim</h1>
+
+    <a href="{% url 'home' %}">
+        ← Bosh sahifa
+    </a>
+
+    <hr>
+
+    {% for post in posts %}
+
+        <h2>
+            <a href="{% url 'post-detail' post.slug %}">
+                {{ post.title }}
+            </a>
+        </h2>
+
+        <p>
+            Muallif: {{ post.author.username }}
+        </p>
+
+        <hr>
+
+    {% empty %}
+
+        <h2>💔 Hali yoqtirgan postlaringiz yo‘q.</h2>
+
+    {% endfor %}
+
+</body>
+</html>
