@@ -55,36 +55,24 @@ class CategoryView(ListView):
             slug=self.kwargs['slug']
         )
         return context
-
-
 class PostDetailView(DetailView):
     model = Post
-    template_name = 'blog/detail.html'
-    context_object_name = 'post'
-    slug_field = 'slug'
-    slug_url_kwarg = 'slug'
-
-    def get_queryset(self):
-        return Post.objects.filter(status='PUBLISHED')
-
-    def get_object(self, queryset=None):
-        post = super().get_object(queryset)
-        post.views_count += 1
-        post.save(update_fields=['views_count'])
-        return post
+    template_name = "blog/detail.html"
+    context_object_name = "post"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comments'] = Comment.objects.filter(
-            post=self.object
-        ).order_by('-created_at')
-        context['comment_form'] = CommentForm()
-        context['similar_posts'] = Post.objects.filter(
-            category=self.object.category,
-            status='PUBLISHED'
-        ).exclude(
-            id=self.object.id
-        ).order_by('-created_at')[:4]
+
+        post = self.object
+
+        context["similar_posts"] = Post.objects.exclude(
+            pk=post.pk
+        ).order_by("-created_at")[:3]
+
+        context["comments"] = post.comments.all()
+
+        context["comment_form"] = CommentForm()
+
         return context
 
 
@@ -95,16 +83,9 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        form.instance.status = 'PENDING'
+        form.instance.status = 'PUBLISHED'   # ← endi darhol nashr qilinadi
         return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse_lazy(
-            'post-detail',
-            kwargs={'slug': self.object.slug}
-        )
-
-
+    
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     form_class = PostForm

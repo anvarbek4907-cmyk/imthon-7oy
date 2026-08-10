@@ -2,59 +2,127 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}Blog{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Blog Platforma{% endblock %}</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: Arial, sans-serif; background: #f5f5f5; color: #222; line-height: 1.6; }
-        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
-        header { background: #2c3e50; padding: 20px 0; }
-        header .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        header a { color: #fff; text-decoration: none; }
-        .logo { font-size: 22px; font-weight: bold; }
-        nav a { margin-left: 15px; font-size: 14px; }
-        nav a:hover { text-decoration: underline; }
-        .search-form { margin-top: 12px; display: flex; }
-        .search-form input { padding: 8px; border: none; width: 200px; }
-        .search-form button { padding: 8px 14px; border: none; background: #3498db; color: #fff; cursor: pointer; }
-        main { padding: 30px 0; }
-        footer { text-align: center; padding: 20px 0; color: #888; font-size: 13px; }
-        .btn { display: inline-block; padding: 8px 16px; background: #3498db; color: #fff; text-decoration: none; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; }
-        .btn:hover { background: #2980b9; }
-        .btn-danger { background: #e74c3c; }
-        .btn-danger:hover { background: #c0392b; }
-        .btn-outline { background: #fff; color: #333; border: 1px solid #ccc; }
-        .btn-outline:hover { background: #eee; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .navbar {
+            background: #111827;
+            padding: 18px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        }
+
+        .nav-content {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 26px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 9px 15px;
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover {
+            background: #374151;
+        }
+
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 9px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        footer {
+            margin-top: 60px;
+            background: #111827;
+            color: #9ca3af;
+            text-align: center;
+            padding: 30px;
+        }
+
+        @media (max-width: 600px) {
+            .nav-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
     </style>
-    {% block extra_head %}{% endblock %}
 </head>
+
 <body>
 
-<header>
-    <div class="container">
-        <a href="{% url 'home' %}" class="logo">Blog</a>
-        <nav>
-            <a href="{% url 'home' %}">Bosh sahifa</a>
-            {% if user.is_authenticated %}
-                <a href="{% url 'post-create' %}">Yozish</a>
-            {% endif %}
-        </nav>
-    </div>
-    <div class="container">
-        <form method="get" action="{% url 'home' %}" class="search-form">
-            <input type="text" name="q" placeholder="Qidirish..." value="{{ request.GET.q }}">
-            <button type="submit">Qidirish</button>
-        </form>
-    </div>
-</header>
+<nav class="navbar">
+    <div class="nav-content">
+        <a href="{% url 'home' %}" class="logo">📝 Blog Platforma</a>
 
-<main class="container">
-    {% block content %}{% endblock %}
-</main>
+        <div class="nav-links">
+            {% if user.is_authenticated %}
+                <a href="{% url 'post-create' %}">+ Post yozish</a>
+
+                <form method="post" action="{% url 'logout' %}" style="display:inline; margin:0;">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn">Chiqish</button>
+                </form>
+            {% else %}
+                <a href="/users/login/">Kirish</a>
+                <a href="/users/register/">Ro‘yxatdan o‘tish</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
 
 <footer>
-    &copy; {% now "Y" %} Blog
+    <p>© 2026 Blog Platforma. Barcha huquqlar himoyalangan.</p>
 </footer>
 
 </body>
-</html>

@@ -30,8 +30,8 @@
 <p>Yaratilgan: {{ post.created_at|date:"d.m.Y H:i" }}</p>
 
 {% if user == post.author or user.is_superuser %}
-<a href="{% url 'post-update' post.id %}">Tahrirlash</a>
-<a href="{% url 'post-delete' post.id %}">O‘chirish</a>
+<a href="{% url 'post-update' post.slug %}">Tahrirlash</a>
+<a href="{% url 'post-delete' post.slug %}">O‘chirish</a>
 {% endif %}
 
 <hr>
@@ -41,7 +41,7 @@
 {% for comment in comments %}
 <div>
     <strong>{{ comment.author.username }}</strong>
-    <p>{{ comment.body }}</p>
+    <p>{{ comment.text }}</p>
     <small>{{ comment.created_at|date:"d.m.Y H:i" }}</small>
 </div>
 <hr>
@@ -52,7 +52,7 @@
 {% if user.is_authenticated %}
 <h3>Izoh qoldirish</h3>
 
-<form method="post" action="{% url 'comment-create' post.id %}">
+<form method="post" action="{% url 'comment-create' post.slug %}">
     {% csrf_token %}
     {{ comment_form.as_p }}
     <button type="submit">Izoh yuborish</button>
@@ -68,7 +68,7 @@
 {% for similar in similar_posts %}
 <div>
     <h3>
-        <a href="{% url 'post-detail' similar.id %}">
+        <a href="{% url 'post-detail' similar.slug %}">
             {{ similar.title }}
         </a>
     </h3>

@@ -4,6 +4,7 @@ from django.urls import reverse
 from ckeditor.fields import RichTextField
 from django.utils.text import slugify
 
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=120, unique=True, blank=True)
@@ -26,10 +27,10 @@ class Post(models.Model):
         ('PENDING', 'Tekshiruvda'),
     ]
     image = models.ImageField(
-    upload_to='posts/',
-    blank=True,
-    null=True
-)
+        upload_to='posts/',
+        blank=True,
+        null=True
+    )
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=220, unique=True, blank=True)
     desc = models.TextField()
@@ -43,7 +44,13 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)
+            base_slug = slugify(self.title)
+            slug = base_slug
+            counter = 1
+            while Post.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
         super().save(*args, **kwargs)
 
     def __str__(self):

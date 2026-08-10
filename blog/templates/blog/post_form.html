@@ -216,9 +216,15 @@
             </div>
 
             <div class="form-group">
-                <label for="{{ form.desc.id_for_label }}">Maqola matni</label>
+                <label for="{{ form.desc.id_for_label }}">Qisqacha tavsif</label>
                 {{ form.desc }}
                 {{ form.desc.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.content.id_for_label }}">To'liq maqola matni</label>
+                {{ form.content }}
+                {{ form.content.errors }}
             </div>
 
             <div class="buttons">

@@ -18,7 +18,7 @@
 <form method="post">
 {% csrf_token %}
 <button class="delete" type="submit">🗑 Ha, o‘chirish</button>
-<a class="cancel" href="{% url 'post-detail' object.pk %}">Bekor qilish</a>
+<a class="cancel" href="{% url 'post-detail' object.slug %}">Bekor qilish</a>
 </form>
 </div>
 </div>
