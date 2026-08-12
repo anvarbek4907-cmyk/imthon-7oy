@@ -1,0 +1,131 @@
+```html
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .delete-container {
+        max-width: 600px;
+        margin: 80px auto;
+        padding: 30px;
+    }
+
+    .delete-box {
+        background: white;
+        border: 1px solid #eee;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .delete-title {
+        font-size: 28px;
+        margin-bottom: 20px;
+        color: #222;
+    }
+
+    .comment-preview {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 15px;
+        margin: 20px 0;
+    }
+
+    .comment-author {
+        font-weight: 600;
+        color: #222;
+        margin-bottom: 8px;
+    }
+
+    .comment-text {
+        color: #555;
+        margin: 0;
+    }
+
+    .actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 25px;
+    }
+
+    .btn {
+        border: none;
+        padding: 11px 20px;
+        border-radius: 8px;
+        font-size: 15px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .btn-delete {
+        background: #dc2626;
+        color: white;
+    }
+
+    .btn-delete:hover {
+        background: #b91c1c;
+    }
+
+    .btn-cancel {
+        background: #e5e7eb;
+        color: #222;
+    }
+
+    .btn-cancel:hover {
+        background: #d1d5db;
+    }
+</style>
+
+<div class="delete-container">
+
+    <div class="delete-box">
+
+        <h1 class="delete-title">
+            🗑 Kommentariyani o‘chirish
+        </h1>
+
+        <p>
+            Haqiqatan ham ushbu kommentariyani o‘chirmoqchimisiz?
+        </p>
+
+        <div class="comment-preview">
+
+            <div class="comment-author">
+                👤 {{ object.author.username }}
+            </div>
+
+            <p class="comment-text">
+                {{ object.text }}
+            </p>
+
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="actions">
+
+                <button
+                    type="submit"
+                    class="btn btn-delete"
+                >
+                    🗑 O‘chirish
+                </button>
+
+                <a
+                    href="{% url 'post-detail' object.post.slug %}"
+                    class="btn btn-cancel"
+                >
+                    Bekor qilish
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
+```

@@ -1,14 +1,22 @@
 from django.urls import path
-
-from .views import (HomeView, CategoryView, PostDetailView,PostCreateView, PostUpdateView,
-    PostDeleteView,
-    CommentCreateView,
+from .views import (
+    HomeView,
+    CategoryView,
+    PostDetailView,
     like_post,
     LikedPostsView,
+    ProfileView,
+    PostCreateView,
+    PostUpdateView,
+    PostDeleteView,
+    CommentCreateView,
+    CommentUpdateView,      
+    CommentDeleteView,
 )
 
 urlpatterns = [
     path(  "",  HomeView.as_view(),name="home" ),
+    path('profile/', ProfileView.as_view(), name='profile'),
 
     path( "category/<slug:slug>/", CategoryView.as_view(), name="category"),
 
@@ -25,4 +33,6 @@ urlpatterns = [
     path("post/<slug:slug>/like/",like_post, name="like-post"),
 
     path("liked/",LikedPostsView.as_view(),name="liked-posts" ),
+    path('comment/<int:pk>/update/', CommentUpdateView.as_view(), name='comment-update'),
+    path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment-delete'),
 ]

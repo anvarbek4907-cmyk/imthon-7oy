@@ -145,17 +145,28 @@
         margin-bottom: 12px;
     }
 
-    .comment strong {
-        color: #222;
+    .comment-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
     }
 
-    .comment p {
+    .comment-author {
+        color: #222;
+        font-weight: 600;
+    }
+
+    .comment-date {
+        color: #888;
+        font-size: 13px;
+    }
+
+    .comment-text {
         margin: 8px 0;
         color: #444;
-    }
-
-    .comment small {
-        color: #888;
+        line-height: 1.6;
     }
 
     .comment-form textarea {
@@ -212,6 +223,11 @@
             gap: 6px;
         }
 
+        .comment-meta {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
         .detail-container {
             margin: 20px auto;
         }
@@ -236,6 +252,7 @@
 
 
     <div class="post-info">
+
         <span>
             📅 {{ post.created_at|date:"d M Y" }}
         </span>
@@ -247,10 +264,12 @@
         <span>
             👁️ {{ post.views_count }} ko‘rish
         </span>
+
     </div>
 
 
     <!-- LIKE -->
+
     <div class="like-box">
 
         {% if user.is_authenticated %}
@@ -266,11 +285,13 @@
                     type="submit"
                     class="like-button"
                 >
+
                     {% if user_liked %}
                         ❤️ Unlike
                     {% else %}
                         🤍 Like
                     {% endif %}
+
                 </button>
 
             </form>
@@ -278,13 +299,17 @@
         {% else %}
 
             <div class="login-message">
+
                 Like bosish uchun
+
                 <a href="{% url 'login' %}">
                     tizimga kiring
                 </a>.
+
             </div>
 
         {% endif %}
+
 
         <span class="like-count">
             ❤️ {{ like_count }} ta like
@@ -294,13 +319,15 @@
 
 
     <!-- CONTENT -->
+
     <div class="post-content">
         {{ post.content|linebreaks }}
     </div>
 
 
     <!-- ACTIONS -->
-    {% if user == post.author %}
+
+    {% if user == post.author or user.is_superuser %}
 
         <div class="post-actions">
 
@@ -327,11 +354,13 @@
 
 
     <!-- SIMILAR POSTS -->
+
     <section>
 
         <h2 class="section-title">
             📚 O‘xshash maqolalar
         </h2>
+
 
         <div class="similar-grid">
 
@@ -344,11 +373,13 @@
                     </div>
 
                     <h3>
+
                         <a
                             href="{% url 'post-detail' similar.slug %}"
                         >
                             {{ similar.title }}
                         </a>
+
                     </h3>
 
                 </div>
@@ -370,11 +401,13 @@
 
 
     <!-- RECENTLY -->
+
     <section>
 
         <h2 class="section-title">
             🕒 Recently
         </h2>
+
 
         <div class="recently-grid">
 
@@ -387,11 +420,13 @@
                     </div>
 
                     <h3>
+
                         <a
                             href="{% url 'post-detail' recent.slug %}"
                         >
                             {{ recent.title }}
                         </a>
+
                     </h3>
 
                 </div>
@@ -413,6 +448,7 @@
 
 
     <!-- COMMENTS -->
+
     <section class="comments">
 
         <h2 class="section-title">
@@ -424,17 +460,60 @@
 
             <div class="comment">
 
-                <strong>
-                    👤 {{ comment.author }}
-                </strong>
+                <div class="comment-meta">
 
-                <p>
+                    <span class="comment-author">
+                        👤 {{ comment.author.username }}
+                    </span>
+
+                    <span class="comment-date">
+                        {{ comment.created_at|date:"d M Y, H:i" }}
+                    </span>
+
+                </div>
+
+
+                <p class="comment-text">
                     {{ comment.text }}
                 </p>
 
-                <small>
-                    📅 {{ comment.created_at|date:"d M Y H:i" }}
-                </small>
+
+                {% if user == comment.author or user.is_superuser %}
+
+                    <div
+                        style="
+                            margin-top:8px;
+                            display:flex;
+                            gap:12px;
+                        "
+                    >
+
+                        <a
+                            href="{% url 'comment-update' comment.pk %}"
+                            style="
+                                font-size:13px;
+                                color:#2563eb;
+                                text-decoration:none;
+                            "
+                        >
+                            ✏️ Tahrirlash
+                        </a>
+
+
+                        <a
+                            href="{% url 'comment-delete' comment.pk %}"
+                            style="
+                                font-size:13px;
+                                color:#dc2626;
+                                text-decoration:none;
+                            "
+                        >
+                            🗑 O'chirish
+                        </a>
+
+                    </div>
+
+                {% endif %}
 
             </div>
 
@@ -447,6 +526,8 @@
 
         {% endfor %}
 
+
+        <!-- COMMENT FORM -->
 
         {% if user.is_authenticated %}
 
@@ -464,6 +545,7 @@
                     required
                 ></textarea>
 
+
                 <button
                     type="submit"
                     class="comment-button"
@@ -476,10 +558,13 @@
         {% else %}
 
             <div class="login-message">
+
                 Fikr qoldirish uchun
+
                 <a href="{% url 'login' %}">
                     tizimga kiring
                 </a>.
+
             </div>
 
         {% endif %}

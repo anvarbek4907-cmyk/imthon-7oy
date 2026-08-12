@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div style="
+    max-width: 700px;
+    margin: 60px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+">
+
+    <h1 style="
+        margin-bottom: 25px;
+        color: #222;
+    ">
+        ✏️ Kommentariyani tahrirlash
+    </h1>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <div style="
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        ">
+
+            <button
+                type="submit"
+                style="
+                    background: #2563eb;
+                    color: white;
+                    border: none;
+                    padding: 12px 24px;
+                    border-radius: 9px;
+                    cursor: pointer;
+                    font-size: 16px;
+                "
+            >
+                💾 Saqlash
+            </button>
+
+            <a
+                href="{% url 'post-detail' object.post.slug %}"
+                style="
+                    background: #6b7280;
+                    color: white;
+                    padding: 12px 24px;
+                    border-radius: 9px;
+                    text-decoration: none;
+                    font-size: 16px;
+                    display: inline-block;
+                "
+            >
+                ← Postga qaytish
+            </a>
+
+            <a
+                href="{% url 'home' %}"
+                style="
+                    background: #374151;
+                    color: white;
+                    padding: 12px 24px;
+                    border-radius: 9px;
+                    text-decoration: none;
+                    font-size: 16px;
+                    display: inline-block;
+                "
+            >
+                🏠 Bosh sahifa
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
